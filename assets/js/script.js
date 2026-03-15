@@ -1,7 +1,7 @@
 // OAuth Configuration
 const oauthConfig = {
   clientId: '787702085630-tm6oq3ce94r97tnnl12fj0aah6neu89c.apps.googleusercontent.com',
-  redirectUri: 'https://amankumar-9of.pages.dev/auth/callback',
+  redirectUri: window.location.origin + '/auth/callback', // Redirect to worker callback
   scopes: 'email profile openid',
   authUrl: 'https://accounts.google.com/o/oauth2/v2/auth',
   tokenUrl: 'https://oauth2.googleapis.com/token'
@@ -25,33 +25,37 @@ async function getUserInfo(accessToken) {
 // Handle OAuth callback
 async function handleOAuthCallback() {
   const urlParams = new URLSearchParams(window.location.search);
-  const authSuccess = urlParams.get('auth_success');
-  const authError = urlParams.get('auth_error');
+  const code = urlParams.get('code');
   const error = urlParams.get('error');
 
-  if (authError || error) {
-    console.error('OAuth Error:', authError || error);
-    // Clean URL
+  if (error) {
+    console.error('OAuth Error:', error);
     window.history.replaceState({}, document.title, window.location.pathname);
     return;
   }
 
-  if (authSuccess === 'true') {
-    // Show success message
-    const messageDiv = document.createElement('div');
-    messageDiv.id = 'oauth-message';
-    messageDiv.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;padding:20px;border-radius:10px;box-shadow:0 4px 20px rgba(0,0,0,0.2);z-index:9999;font-family:sans-serif;';
-    messageDiv.innerHTML = '<p style="margin:0;font-size:18px;">✅ Login successful!</p><p style="margin:10px 0 0;color:#666;">Setting up your session...</p>';
-    document.body.appendChild(messageDiv);
+  if (code) {
+    try {
+      // 1. Send code to Worker for exchange and DB log
+      const response = await fetch(`/auth/callback?code=${code}`);
+      
+      if (response.ok) {
+        // 2. Login successful, save user details
+        const userData = await response.json(); 
+        
+        localStorage.setItem("user_name", userData.name || "User");
+        localStorage.setItem("user_email", userData.email);
+        localStorage.setItem("is_logged_in", "true");
+        localStorage.setItem("user_picture", userData.picture || "");
 
-    // Clean URL
-    window.history.replaceState({}, document.title, window.location.pathname);
-
-    setTimeout(() => {
-      messageDiv.remove();
-      // Reload to refresh the page state
-      window.location.reload();
-    }, 1500);
+        // 3. Clean URL and reload to apply changes
+        window.location.href = "/"; 
+      } else {
+        console.error('Failed to exchange code');
+      }
+    } catch (err) {
+      console.error('OAuth callback error:', err);
+    }
   }
 }
 
@@ -70,9 +74,148 @@ function googleLogout() {
   window.location.href = '/auth/logout';
 }
 
+// Update UI based on auth status
+function updateAuthUI() {
+  const authNav = document.getElementById('auth-nav');
+  const contactName = document.getElementById('contact-name');
+  const contactEmail = document.getElementById('contact-email');
+  
+  const isLoggedIn = localStorage.getItem('is_logged_in') === 'true';
+
+  if (isLoggedIn) {
+    const userName = localStorage.getItem('user_name') || 'User';
+    const userEmail = localStorage.getItem('user_email') || '';
+    const userPicture = localStorage.getItem('user_picture');
+    
+    // Auto-fill contact form
+    if (contactName) contactName.value = userName;
+    if (contactEmail) contactEmail.value = userEmail;
+
+    if (authNav) {
+        authNav.innerHTML = `
+          <div class="flex items-center space-x-3">
+            <a href="user.html" class="flex items-center space-x-2 group">
+              ${userPicture ? 
+                `<img src="${userPicture}" class="w-8 h-8 rounded-full border border-accent/50 group-hover:scale-110 transition-transform" alt="User">` :
+                `<div class="w-8 h-8 rounded-full bg-accent flex items-center justify-center font-bold text-primary group-hover:scale-110 transition-transform">${userName[0]}</div>`
+              }
+              <span class="text-gray-300 text-sm font-medium group-hover:text-accent transition-colors">${userName}</span>
+            </a>
+            <button onclick="googleLogout()" class="text-xs text-gray-500 hover:text-red-400 transition-colors">Logout</button>
+          </div>
+        `;
+    }
+  } else if (authNav) {
+    authNav.innerHTML = `<button onclick="googleLogin()" class="px-4 py-2 border border-accent/30 text-accent rounded-lg hover:bg-accent hover:text-primary transition-all font-medium text-sm">Login</button>`;
+  }
+}
+
+// Contact Form Handler
+async function handleContactForm(e) {
+  e.preventDefault();
+  const form = e.target;
+  const submitBtn = document.getElementById('contact-submit');
+  const originalText = submitBtn.textContent;
+
+  const data = {
+    name: document.getElementById('contact-name').value,
+    email: document.getElementById('contact-email').value,
+    message: document.getElementById('contact-message').value
+  };
+
+  try {
+    submitBtn.textContent = 'Sending...';
+    submitBtn.disabled = true;
+
+    const response = await fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+
+    if (response.ok) {
+      alert('✅ Message sent successfully!');
+      form.reset();
+      updateAuthUI(); // Re-fill name/email if logged in
+    } else {
+      throw new Error('Failed to send message');
+    }
+  } catch (err) {
+    console.error(err);
+    alert('❌ Error sending message. Please try again.');
+  } finally {
+    submitBtn.textContent = originalText;
+    submitBtn.disabled = false;
+  }
+}
+
+// GitHub Projects Fetcher
+async function fetchGitHubProjects() {
+    const container = document.getElementById('github-projects');
+    if (!container) return;
+
+    try {
+        const response = await fetch('https://api.github.com/users/expensesamankumar-prog/repos?sort=updated&direction=desc');
+        if (!response.ok) throw new Error('GitHub API Unreachable');
+        
+        const repos = await response.json();
+
+        container.innerHTML = repos
+            .filter(repo => !repo.fork && repo.name !== 'expensesamankumar-prog') // Filter forks and profile repo
+            .slice(0, 6)
+            .map(repo => `
+                <div class="glass-card rounded-2xl overflow-hidden border border-white/5 animate-fade-in group hover:shadow-[0_20px_50px_rgba(59,130,246,0.15)] transition-all">
+                    <div class="h-40 bg-gradient-to-br from-accent/5 to-neon-blue/10 flex items-center justify-center relative overflow-hidden">
+                         <div class="absolute inset-0 bg-blue-600/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                         <svg class="w-12 h-12 text-white/10 group-hover:scale-110 group-hover:text-accent/30 transition-all duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/>
+                         </svg>
+                    </div>
+                    <div class="p-6 flex flex-col h-full min-h-[180px]">
+                        <div class="flex items-start justify-between mb-2">
+                            <h3 class="text-xl font-bold truncate pr-4 text-white group-hover:text-accent transition-colors">${repo.name}</h3>
+                            <span class="text-[10px] uppercase tracking-wider font-bold px-2 py-0.5 bg-accent/10 text-accent rounded-full border border-accent/20 whitespace-nowrap">
+                                ${repo.language || 'Project'}
+                            </span>
+                        </div>
+                        <p class="text-gray-400 text-sm mb-6 line-clamp-2 leading-relaxed">
+                            ${repo.description || 'Professional project and automation logic hosted on GitHub.'}
+                        </p>
+                        <div class="flex items-center justify-between mt-auto">
+                            <div class="flex items-center space-x-4 text-[11px] font-bold text-gray-500">
+                                <span class="flex items-center group/stat"><svg class="w-3.5 h-3.5 mr-1 text-accent/50" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>${repo.stargazers_count}</span>
+                                <span class="flex items-center group/stat"><svg class="w-3.5 h-3.5 mr-1 text-neon-blue/50" fill="currentColor" viewBox="0 0 20 20"><path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM14 11a1 1 0 011 1v1h1a1 1 0 110 2h-1v1a1 1 0 11-2 0v-1h-1a1 1 0 110-2h1v-1a1 1 0 011-1z"></path></svg>${repo.forks_count}</span>
+                            </div>
+                            <a href="${repo.html_url}" target="_blank" class="text-neon-blue hover:text-white font-bold text-xs transition-all flex items-center group/link">
+                                OPEN SOURCE
+                                <svg class="w-4 h-4 ml-1.5 transform group-hover/link:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            `)
+            .join('');
+    } catch (err) {
+        console.error('GitHub fetch failed:', err);
+        container.innerHTML = `
+            <div class="col-span-full glass-card p-12 text-center rounded-2xl border-dashed border-white/10">
+                <p class="text-gray-400 mb-4">Error loading dynamic projects.</p>
+                <a href="https://github.com/expensesamankumar-prog" target="_blank" class="px-6 py-2 bg-white/5 border border-white/10 rounded-lg hover:bg-accent hover:text-primary transition-all font-bold text-sm">VIEW ON GITHUB</a>
+            </div>
+        `;
+    }
+}
+
 // Check for OAuth callback on page load
 document.addEventListener('DOMContentLoaded', function () {
   handleOAuthCallback();
+  updateAuthUI();
+  fetchGitHubProjects();
+
+  const contactForm = document.getElementById('contact-form');
+  if (contactForm) {
+    contactForm.addEventListener('submit', handleContactForm);
+  }
 });
 
 // Favicon Animation

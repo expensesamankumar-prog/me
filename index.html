@@ -220,7 +220,7 @@
                     <a href="#home" class="text-gray-300 hover:text-accent transition-colors">Home</a>
                     <a href="#about" class="text-gray-300 hover:text-accent transition-colors">About Me</a>
                     <a href="#skills" class="text-gray-300 hover:text-accent transition-colors">Skills</a>
-                    <a href="#portfolio" class="text-gray-300 hover:text-accent transition-colors">Portfolio</a>
+                    <a href="#projects" class="text-gray-300 hover:text-accent transition-colors">Portfolio</a>
                     
                     <!-- Theme Selector -->
                     <div class="flex items-center space-x-3 px-4 border-l border-white/10 ml-4">
@@ -255,7 +255,7 @@
                 <a href="#home" class="block py-2 hover:text-accent">Home</a>
                 <a href="#about" class="block py-2 hover:text-accent">About Me</a>
                 <a href="#skills" class="block py-2 hover:text-accent">Skills</a>
-                <a href="#portfolio" class="block py-2 hover:text-accent">Portfolio</a>
+                <a href="#projects" class="block py-2 hover:text-accent">Portfolio</a>
                 <a href="#contact" class="block py-2 hover:text-accent">Contact</a>
             </div>
         </div>
@@ -275,7 +275,7 @@
                         A passionate developer crafting modern, high-performance web experiences with clean code and creative solutions.
                     </p>
                     <div class="flex flex-wrap gap-4">
-                        <a href="#portfolio" class="glow-border px-8 py-3 bg-blue-600/10 hover:bg-neon-blue text-neon-blue hover:text-white rounded-lg font-medium transition-all transform hover:scale-105 shadow-[0_0_15px_rgba(59,130,246,0.3)] hover:shadow-[0_0_30px_rgba(59,130,246,0.6)]">
+                        <a href="#projects" class="glow-border px-8 py-3 bg-blue-600/10 hover:bg-neon-blue text-neon-blue hover:text-white rounded-lg font-medium transition-all transform hover:scale-105 shadow-[0_0_15px_rgba(59,130,246,0.3)] hover:shadow-[0_0_30px_rgba(59,130,246,0.6)]">
                             View My Work
                         </a>
                         <a href="#contact" class="px-8 py-3 bg-secondary border border-white/10 hover:border-accent hover:text-accent rounded-lg font-medium transition-all">
@@ -545,50 +545,24 @@
     </section>
 
     <!-- Projects Section -->
-    <section id="portfolio" class="py-20 relative">
+    <section id="projects" class="py-20 relative">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold mb-4"><span class="gradient-text">My Portfolio</span></h2>
+                <h2 class="text-4xl font-bold mb-4"><span class="gradient-text">My Projects</span></h2>
                 <p class="text-gray-400 max-w-2xl mx-auto">
-                    Here are some of the projects I've worked on.
+                    Exploring my latest work, automated solutions, and open-source contributions live from GitHub.
                 </p>
             </div>
             
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Project Card -->
-                <div class="glass-card rounded-2xl overflow-hidden border border-white/5">
-                    <!-- Placeholder for WebP Image -->
-                    <div class="h-48 bg-gradient-to-br from-accent/20 to-cyan-500/20 flex items-center justify-center">
-                        <svg class="w-24 h-24 text-white/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                        </svg>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold mb-2">Project Name</h3>
-                        <p class="text-gray-400 mb-4">A brief description of the project and what it does.</p>
-                        <div class="flex flex-wrap gap-2">
-                            <span class="px-3 py-1 bg-accent/20 text-accent text-sm rounded-full">React</span>
-                            <span class="px-3 py-1 bg-cyan-500/20 text-cyan-500 text-sm rounded-full">Node.js</span>
-                        </div>
-                    </div>
+            <div id="github-projects" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Dynamic Content Loads Here -->
+                <div class="col-span-full text-center py-12">
+                    <div class="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-accent mb-4"></div>
+                    <p class="text-gray-400">Fetching projects from GitHub...</p>
                 </div>
-                
-                <!-- Project Card -->
-                <div class="bg-primary rounded-2xl overflow-hidden card-hover border border-white/5">
-                    <div class="h-48 bg-gradient-to-br from-purple-500/20 to-pink-500/20 flex items-center justify-center">
-                        <svg class="w-24 h-24 text-white/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                        </svg>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold mb-2">Project Name</h3>
-                        <p class="text-gray-400 mb-4">A brief description of the project and what it does.</p>
-                        <div class="flex flex-wrap gap-2">
-                            <span class="px-3 py-1 bg-accent/20 text-accent text-sm rounded-full">Next.js</span>
-                            <span class="px-3 py-1 bg-cyan-500/20 text-cyan-500 text-sm rounded-full">Tailwind</span>
-                        </div>
-                    </div>
-                </div>
+            </div>
+        </div>
+    </section>
                 
                 <!-- Project Card -->
                 <div class="bg-primary rounded-2xl overflow-hidden card-hover border border-white/5">
