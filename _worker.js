@@ -105,7 +105,7 @@ export default {
             });
         }
 
-        // Default: return 404
-        return new Response('Not Found', { status: 404 });
+        // Default: serve static assets from the Pages project
+        return env.ASSETS.fetch(request);
     }
 };
