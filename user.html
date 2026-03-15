@@ -3,7 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Profile | Aman Kumar</title>
+    <title>My Profile | Aman Kumar | Developer & Linux Specialist</title>
+    <meta name="description" content="User Profile - Aman Kumar - Full-Stack Developer, Linux Enthusiast, and Audio Engineer.">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://amankumar.pages.dev/user.html">
+    <meta property="og:title" content="My Profile | Aman Kumar">
+    <meta property="og:description" content="Aman Kumar's User Profile - Developer & Linux Specialist.">
+    <meta property="og:image" content="https://amankumar.pages.dev/assets/og-preview.png">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="My Profile | Aman Kumar">
+    <meta name="twitter:description" content="User Profile - Developer, Linux Enthusiast, and Audio Tech Specialist.">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -39,16 +50,16 @@
         <a href="index.html" class="text-2xl font-bold text-accent">&lt; Back</a>
         <div class="flex items-center space-x-4">
             <span class="text-gray-400">User Dashboard</span>
-            <div class="w-10 h-10 rounded-full bg-neon-blue flex items-center justify-center font-bold text-white">U</div>
+            <div id="user-avatar" class="w-10 h-10 rounded-full bg-neon-blue flex items-center justify-center font-bold text-white overflow-hidden">U</div>
         </div>
     </nav>
 
     <main class="max-w-4xl mx-auto">
         <div class="flex items-end space-x-6 mb-12">
-            <div class="w-24 h-24 bg-gradient-to-br from-accent to-neon-blue rounded-2xl"></div>
+            <div id="user-hero-pic" class="w-24 h-24 bg-gradient-to-br from-accent to-neon-blue rounded-2xl flex items-center justify-center text-4xl font-bold overflow-hidden"></div>
             <div>
-                <h1 class="text-4xl font-bold">Welcome, Guest</h1>
-                <p class="text-gray-400">Customize your viewing experience</p>
+                <h1 id="user-welcome" class="text-4xl font-bold">Welcome, Guest</h1>
+                <p id="user-email-display" class="text-gray-400">Customize your viewing experience</p>
             </div>
         </div>
         
@@ -95,17 +106,73 @@
 
     <script src="assets/js/themes.js"></script>
     <script>
-        function applyThemeAndActive(theme, el) {
+        async function applyThemeAndActive(theme, el) {
             applyTheme(theme);
             document.querySelectorAll('.theme-card').forEach(c => c.classList.remove('active'));
-            el.classList.add('active');
+            if (el) el.classList.add('active');
+            
+            // Save to backend if logged in
+            const userId = localStorage.getItem('user_id');
+            if (userId && localStorage.getItem('is_logged_in') === 'true') {
+                try {
+                    await fetch('/api/settings', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ 
+                            key: `user_theme_${userId}`, // Generic setting or specifically for this user
+                            value: theme,
+                            user_id: userId // Our backend handles user_preferences table
+                        })
+                    });
+                } catch (err) { console.error("Failed to save theme:", err); }
+            }
         }
 
-        // Set active card on load
-        document.addEventListener('DOMContentLoaded', () => {
-            const saved = localStorage.getItem('portfolio-theme') || 'gold';
-            const el = document.getElementById(`theme-${saved}`);
-            if (el) applyThemeAndActive(saved, el);
+        document.addEventListener('DOMContentLoaded', async () => {
+            const isLoggedIn = localStorage.getItem('is_logged_in') === 'true';
+            const userId = localStorage.getItem('user_id');
+            
+            // 1. Initial local theme
+            let currentTheme = localStorage.getItem('portfolio-theme') || 'gold';
+
+            if (isLoggedIn && userId) {
+                try {
+                    // 2. Fetch Detailed User Profile + Preferences
+                    const res = await fetch(`/api/user?id=${userId}`);
+                    const profile = await res.json();
+                    
+                    if (!profile.error) {
+                        // Update UI with DB values
+                        document.getElementById('user-welcome').textContent = `Welcome, ${profile.name}`;
+                        document.getElementById('user-email-display').textContent = profile.email;
+                        
+                        if (profile.picture) {
+                            const avatar = `<img src="${profile.picture}" class="w-full h-full object-cover">`;
+                            document.getElementById('user-avatar').innerHTML = avatar;
+                            document.getElementById('user-hero-pic').innerHTML = avatar;
+                        }
+
+                        // Apply DB Theme Preference
+                        if (profile.preferences && profile.preferences.theme_color) {
+                            currentTheme = profile.preferences.theme_color;
+                        }
+                    }
+                } catch (err) {
+                    console.error("Profile fetch failed:", err);
+                }
+            } else {
+                // Fallback for Guests
+                const name = localStorage.getItem('user_name') || 'Guest';
+                document.getElementById('user-welcome').textContent = `Welcome, ${name}`;
+            }
+
+            // 3. Set active card and apply theme
+            const el = document.getElementById(`theme-${currentTheme}`);
+            if (el) {
+                applyThemeAndActive(currentTheme, el);
+            } else {
+                applyTheme(currentTheme);
+            }
         });
     </script>
 </body>
