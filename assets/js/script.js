@@ -151,56 +151,39 @@ async function handleContactForm(e) {
 
 // GitHub Projects Fetcher
 async function fetchGitHubProjects() {
+    const username = 'expensesamankumar-prog';
     const container = document.getElementById('github-projects');
     if (!container) return;
 
     try {
-        const response = await fetch('https://api.github.com/users/expensesamankumar-prog/repos?sort=updated&direction=desc');
+        const response = await fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=6`);
         if (!response.ok) throw new Error('GitHub API Unreachable');
         
         const repos = await response.json();
 
-        container.innerHTML = repos
-            .filter(repo => !repo.fork && repo.name !== 'expensesamankumar-prog') // Filter forks and profile repo
-            .slice(0, 6)
-            .map(repo => `
-                <div class="glass-card rounded-2xl overflow-hidden border border-white/5 animate-fade-in group hover:shadow-[0_20px_50px_rgba(59,130,246,0.15)] transition-all">
-                    <div class="h-40 bg-gradient-to-br from-accent/5 to-neon-blue/10 flex items-center justify-center relative overflow-hidden">
-                         <div class="absolute inset-0 bg-blue-600/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                         <svg class="w-12 h-12 text-white/10 group-hover:scale-110 group-hover:text-accent/30 transition-all duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/>
-                         </svg>
-                    </div>
-                    <div class="p-6 flex flex-col h-full min-h-[180px]">
-                        <div class="flex items-start justify-between mb-2">
-                            <h3 class="text-xl font-bold truncate pr-4 text-white group-hover:text-accent transition-colors">${repo.name}</h3>
-                            <span class="text-[10px] uppercase tracking-wider font-bold px-2 py-0.5 bg-accent/10 text-accent rounded-full border border-accent/20 whitespace-nowrap">
-                                ${repo.language || 'Project'}
-                            </span>
+        container.innerHTML = ''; // Loading text hatao
+
+        repos.forEach(repo => {
+            if (!repo.fork && repo.name !== 'expensesamankumar-prog') {
+                const card = `
+                    <div class="project-card animate-fade-in">
+                        <h3>${repo.name}</h3>
+                        <p>${repo.description || 'Professional project and automation logic hosted on GitHub.'}</p>
+                        <div class="tags">
+                            <span>${repo.language || 'JS'}</span>
                         </div>
-                        <p class="text-gray-400 text-sm mb-6 line-clamp-2 leading-relaxed">
-                            ${repo.description || 'Professional project and automation logic hosted on GitHub.'}
-                        </p>
-                        <div class="flex items-center justify-between mt-auto">
-                            <div class="flex items-center space-x-4 text-[11px] font-bold text-gray-500">
-                                <span class="flex items-center group/stat"><svg class="w-3.5 h-3.5 mr-1 text-accent/50" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>${repo.stargazers_count}</span>
-                                <span class="flex items-center group/stat"><svg class="w-3.5 h-3.5 mr-1 text-neon-blue/50" fill="currentColor" viewBox="0 0 20 20"><path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM14 11a1 1 0 011 1v1h1a1 1 0 110 2h-1v1a1 1 0 11-2 0v-1h-1a1 1 0 110-2h1v-1a1 1 0 011-1z"></path></svg>${repo.forks_count}</span>
-                            </div>
-                            <a href="${repo.html_url}" target="_blank" class="text-neon-blue hover:text-white font-bold text-xs transition-all flex items-center group/link">
-                                OPEN SOURCE
-                                <svg class="w-4 h-4 ml-1.5 transform group-hover/link:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-                            </a>
-                        </div>
+                        <a href="${repo.html_url}" target="_blank">View Repo →</a>
                     </div>
-                </div>
-            `)
-            .join('');
-    } catch (err) {
-        console.error('GitHub fetch failed:', err);
+                `;
+                container.innerHTML += card;
+            }
+        });
+    } catch (error) {
+        console.error('Error fetching repos:', error);
         container.innerHTML = `
             <div class="col-span-full glass-card p-12 text-center rounded-2xl border-dashed border-white/10">
-                <p class="text-gray-400 mb-4">Error loading dynamic projects.</p>
-                <a href="https://github.com/expensesamankumar-prog" target="_blank" class="px-6 py-2 bg-white/5 border border-white/10 rounded-lg hover:bg-accent hover:text-primary transition-all font-bold text-sm">VIEW ON GITHUB</a>
+                <p class="text-gray-400 mb-4">Failed to load projects. Check console for details.</p>
+                <a href="https://github.com/${username}" target="_blank" class="px-6 py-2 bg-white/5 border border-white/10 rounded-lg hover:bg-accent hover:text-primary transition-all font-bold text-sm">VIEW ON GITHUB</a>
             </div>
         `;
     }
