@@ -14,6 +14,7 @@ const getEnv = (env) => ({
 export default {
     async fetch(request, env, ctx) {
         const url = new URL(request.url);
+        console.log(`Request path: ${url.pathname}`);
 
         // Handle the OAuth token exchange
         if (url.pathname === '/auth/callback' || url.searchParams.has('code')) {
