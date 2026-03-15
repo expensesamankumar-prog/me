@@ -1,0 +1,4 @@
+name = "aman-kumar-portfolio"
+# account_id = "<YOUR_CLOUDFLARE_ACCOUNT_ID>"
+# Set project for Pages deploy
+# Use: wrangler pages publish . --project-name aman-kumar-portfolio
