@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile | Aman Kumar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        'primary': 'var(--color-primary)',
+                        'secondary': 'var(--color-secondary)',
+                        'accent': 'var(--color-accent)',
+                        'neon-blue': 'var(--color-neon-blue)',
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        :root {
+            --color-primary: #030305;
+            --color-secondary: #0a0a0e;
+            --color-accent: #fbbf24;
+            --color-neon-blue: #3b82f6;
+        }
+        body { background: var(--color-primary); color: white; font-family: 'Inter', sans-serif; transition: all 0.3s ease; }
+        .glass { background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); }
+        .theme-card { cursor: pointer; transition: all 0.3s ease; border: 2px solid transparent; }
+        .theme-card:hover { transform: translateY(-5px); }
+        .theme-card.active { border-color: var(--color-accent); background: rgba(255,255,255,0.1); }
+    </style>
+</head>
+<body class="min-h-screen p-8">
+    <nav class="flex justify-between items-center mb-12">
+        <a href="index.html" class="text-2xl font-bold text-accent">&lt; Back</a>
+        <div class="flex items-center space-x-4">
+            <span class="text-gray-400">User Dashboard</span>
+            <div class="w-10 h-10 rounded-full bg-neon-blue flex items-center justify-center font-bold text-white">U</div>
+        </div>
+    </nav>
+
+    <main class="max-w-4xl mx-auto">
+        <div class="flex items-end space-x-6 mb-12">
+            <div class="w-24 h-24 bg-gradient-to-br from-accent to-neon-blue rounded-2xl"></div>
+            <div>
+                <h1 class="text-4xl font-bold">Welcome, Guest</h1>
+                <p class="text-gray-400">Customize your viewing experience</p>
+            </div>
+        </div>
+        
+        <h2 class="text-2xl font-semibold mb-6">Choose Your Vibe</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+            <div onclick="applyThemeAndActive('gold', this)" class="theme-card glass p-6 rounded-2xl text-center active" id="theme-gold">
+                <div class="w-12 h-12 bg-[#fbbf24] rounded-full mx-auto mb-4"></div>
+                <span class="font-medium">Gold</span>
+            </div>
+            <div onclick="applyThemeAndActive('emerald', this)" class="theme-card glass p-6 rounded-2xl text-center" id="theme-emerald">
+                <div class="w-12 h-12 bg-[#10b981] rounded-full mx-auto mb-4"></div>
+                <span class="font-medium">Emerald</span>
+            </div>
+            <div onclick="applyThemeAndActive('ruby', this)" class="theme-card glass p-6 rounded-2xl text-center" id="theme-ruby">
+                <div class="w-12 h-12 bg-[#ef4444] rounded-full mx-auto mb-4"></div>
+                <span class="font-medium">Ruby</span>
+            </div>
+            <div onclick="applyThemeAndActive('midnight', this)" class="theme-card glass p-6 rounded-2xl text-center" id="theme-midnight">
+                <div class="w-12 h-12 bg-[#8b5cf6] rounded-full mx-auto mb-4"></div>
+                <span class="font-medium">Midnight</span>
+            </div>
+        </div>
+
+        <div class="glass p-8 rounded-2xl">
+            <h2 class="text-2xl font-semibold mb-6">Account Settings</h2>
+            <div class="space-y-4">
+                <div class="flex items-center justify-between p-4 border-b border-white/5">
+                    <div>
+                        <p class="font-medium">Email Notifications</p>
+                        <p class="text-sm text-gray-400">Get updates about new projects</p>
+                    </div>
+                    <div class="w-12 h-6 bg-accent rounded-full relative"><div class="absolute right-1 top-1 w-4 h-4 bg-white rounded-full"></div></div>
+                </div>
+                <div class="flex items-center justify-between p-4">
+                    <div>
+                        <p class="font-medium">Public Profile</p>
+                        <p class="text-sm text-gray-400">Allow others to see your bookmarks</p>
+                    </div>
+                    <div class="w-12 h-6 bg-gray-600 rounded-full relative"><div class="absolute left-1 top-1 w-4 h-4 bg-white rounded-full"></div></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="assets/js/themes.js"></script>
+    <script>
+        function applyThemeAndActive(theme, el) {
+            applyTheme(theme);
+            document.querySelectorAll('.theme-card').forEach(c => c.classList.remove('active'));
+            el.classList.add('active');
+        }
+
+        // Set active card on load
+        document.addEventListener('DOMContentLoaded', () => {
+            const saved = localStorage.getItem('portfolio-theme') || 'gold';
+            const el = document.getElementById(`theme-${saved}`);
+            if (el) applyThemeAndActive(saved, el);
+        });
+    </script>
+</body>
+</html>

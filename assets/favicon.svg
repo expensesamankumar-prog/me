@@ -1,29 +1,23 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
     <g>
-        <!-- Transparent Background Shape -->
-        <rect width="100" height="100" rx="20" fill="transparent"/>
-        
-        <!-- Letter A (Blue) -->
+        <!-- Letter A (Blue) - Compressed Width, Modern Angles -->
         <g>
-            <path d="M28 65 L40 25 L52 65 M34 50 L46 50" stroke="#3b82f6" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
-            <!-- Pulsing light effect for A stops after 20 times (3s * 20 = 60s) -->
-            <animate attributeName="opacity" values="1; 0.7; 1" dur="3s" repeatCount="20" />
+            <!-- A shape: thinner width, sharper futuristic apex -->
+            <path d="M15 85 L28 15 L41 85 M19 60 L37 60" stroke="#3b82f6" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+            <animate attributeName="opacity" values="1; 0.6; 1" dur="3s" repeatCount="20" />
         </g>
         
-        <!-- Letter K (Gold) -->
+        <!-- Letter K (Gold) - Compressed Width, Futuristic Look -->
         <g>
             <!-- Vertical line of K -->
-            <path d="M60 25 L60 65" stroke="#fbbf24" stroke-width="10" stroke-linecap="round" />
-            <!-- Angle lines of K -->
-            <path d="M78 25 L60 45 L78 65" stroke="#fbbf24" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
-            <!-- Pulsing light effect for K stops after 20 times -->
-            <animate attributeName="opacity" values="0.7; 1; 0.7" dur="3s" repeatCount="20" />
+            <path d="M55 15 L55 85" stroke="#fbbf24" stroke-width="12" stroke-linecap="round" />
+            <!-- Angle lines of K (starts from center)-->
+            <path d="M85 15 L55 50 L85 85" stroke="#fbbf24" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+            <animate attributeName="opacity" values="0.6; 1; 0.6" dur="3s" repeatCount="20" />
         </g>
         
-        <!-- Sweeping Shine Effect Layer (Chamke) -->
-        <!-- Placed over the letters but clipped by the background rect for clean edges -->
-        <g clip-path="url(#rect-clip)">
-            <!-- Shine stops after 15 times (4s * 15 = 60s) -->
+        <!-- Sweeping Futuristic Glow Effect Layer -->
+        <g>
             <polygon points="-60,0 -20,0 20,100 -20,100" fill="url(#shineGrad)">
                 <animateTransform attributeName="transform" type="translate" values="-40,0; 180,0; 180,0" keyTimes="0; 0.15; 1" dur="4s" repeatCount="15" />
             </polygon>
@@ -31,15 +25,10 @@
     </g>
 
     <defs>
-        <!-- Clipping to the boundaries of the icon -->
-        <clipPath id="rect-clip">
-            <rect width="100" height="100" rx="20" />
-        </clipPath>
-    
         <!-- Gradient for the light beam -->
         <linearGradient id="shineGrad" x1="0" y1="0" x2="1" y2="0">
             <stop offset="0%" stop-color="#ffffff" stop-opacity="0" />
-            <stop offset="50%" stop-color="#ffffff" stop-opacity="0.6" />
+            <stop offset="50%" stop-color="#ffffff" stop-opacity="0.9" />
             <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
         </linearGradient>
     </defs>

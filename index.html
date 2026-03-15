@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aman Kumar | Portfolio</title>
-    <meta name="description" content="Professional Portfolio - Aman Kumar">
+    <title>Aman Kumar</title>
+    <meta name="description" content="Aman Kumar">
     
     <!-- Google Fonts: Inter (Modern Sans-Serif) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,30 +12,47 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
     <!-- Favicon -->
-    <link rel="icon" id="favicon" href="assets/favicon.svg" type="image/svg+xml">
+    <!-- Firefox/Safari Fallback (Standard PNG) -->
+    <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAADXElEQVRYR+2WwU3DQBRFzzhAA6SD0gGhg9ABi05YBKmETggdEDqgFdJBOsAG2rS8R46R7Pj/y3FsR1rZsmR7Z/7M/P/dGTm/vJycLpYm35dmm5n5zcxC+lR+Z+bvzPwjvS3NR/U1O59fTp5m5tA03S1NPpeZ/2VmB/d0Z2bmC2W+YqFh6H/iXWn2F97X0wG2iIFsP1/w+wM7d0/lABTggQ0oAEBwB+r594+Z+eRDA48nZmaZ7/9ZAS+Z+VAA/WfmTwEA1iQAi7b1D8I5gIckgH1tHWB2u/1s2/adOQe4Z2YyYADqC8B0Op1P0/TCnM8C2N+F1TfLcrXb7X5n5kMDXG5XQ9W2bX1qAM6g7B5wZ+ZnZt721m02G9dC17ZtHxrARW811Bf02jH4wczPTdMcE4DzH7X23jH4hZm3Q99fX18/1+v1KxrARX5k5ksCwL53APeGvn9+fv5YLBYvC8BlB3vAIfw9wIt6v8x+DABXy3LV9321A8gq2LUNY28+NQDj82ZpX3dEACcE8G6z2fx2XTf372U5d4kAnDOw7h4mAKu2bR/Kj7quH33fvxWAyw6LAAz6D1h1XT8A2PcQAMvscB9g+k/4e1jE98rYt/h6vY739+fnZ+L2f13sARcA8GZZVp8E8EIA0A0xI118xL+q6/rO3A3g5vYyADuA1f09gN9+k1A1TfPU2o8d4BMAQO4C+40V0u2hA/ARe3t7e+/v7+8Z+x/M3QAg0NrdA3q7qPZ1N03TqwCAE73d7Xb1Sj20D2AAj4+PX8/PzwFh1/cv2n6P2gH4L3I1TVPd1r16jU220uH+OwbQp9yQAHh//xXAhZgEAE4BQDfUu7aG/1O1p0dF4L9xPz7fAAjIAdh7P63L8vLy0vb29p/2cIfi4XnN0v8bW+07+T5A+u4zW8D55eTktgNwYgMAt7P18/PzJ/rA4+Pjh8x344+52zD3p/8233OqO2a32z2s1+uH4/F4e3x83F9fX3+I/VjU8d/G//t0Op0enZ6evq/X6+vtdnt1fHyt1+vnFxcXd3+Ym/Zl14a3sAAAAASUVORK5CYII=">
+    <!-- Modern Browsers SVG -->
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
+    <style>
+        :root {
+            --color-primary: #030305;
+            --color-secondary: #0a0a0e;
+            --color-accent: #fbbf24;
+            --color-accent-hover: #f59e0b;
+            --color-neon-blue: #3b82f6;
+            --color-text: #e2e8f0;
+        }
+    </style>
+    
     <!-- Custom Configuration -->
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     fontFamily: {
                         'sans': ['Inter', 'sans-serif'],
                     },
                     colors: {
-                        'primary': '#0f172a',
-                        'secondary': '#1e293b',
-                        'accent': '#3b82f6',
-                        'accent-hover': '#2563eb',
+                        'primary': 'var(--color-primary)',
+                        'secondary': 'var(--color-secondary)',
+                        'accent': 'var(--color-accent)',
+                        'accent-hover': 'var(--color-accent-hover)',
+                        'neon-blue': 'var(--color-neon-blue)',
                     },
                      animation: {
-                         'fade-in': 'fadeIn 0.8s ease-out forwards',
-                         'slide-up': 'slideUp 0.8s ease-out forwards',
-                         'float': 'float 3s ease-in-out infinite',
-                         'coding-to-a': 'codingToA 3s ease-in-out infinite',
+                         'fade-in': 'fadeIn 1s ease-out forwards',
+                         'slide-up': 'slideUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                         'float': 'float 4s ease-in-out infinite',
+                         'coding-to-a': 'codingToA 4s ease-in-out infinite',
+                         'glow-pulse': 'glowPulse 3s infinite',
                      },
                      keyframes: {
                          fadeIn: {
@@ -43,17 +60,21 @@
                              '100%': { opacity: '1' },
                          },
                          slideUp: {
-                             '0%': { opacity: '0', transform: 'translateY(30px)' },
+                             '0%': { opacity: '0', transform: 'translateY(40px)' },
                              '100%': { opacity: '1', transform: 'translateY(0)' },
                          },
                          float: {
                              '0%, 100%': { transform: 'translateY(0)' },
-                             '50%': { transform: 'translateY(-10px)' },
+                             '50%': { transform: 'translateY(-15px)' },
                          },
                          codingToA: {
                              '0%, 100%': { backgroundClip: 'text', WebkitBackgroundClip: 'text' },
-                             '50%': { backgroundClip: 'text', WebkitBackgroundClip: 'text', backgroundImage: 'linear-gradient(to right, #3b82f6 50%, #06b6d4 50%)' },
+                             '50%': { backgroundClip: 'text', WebkitBackgroundClip: 'text', backgroundImage: 'linear-gradient(to right, #3b82f6 50%, #fbbf24 50%)' },
                          },
+                         glowPulse: {
+                             '0%, 100%': { boxShadow: '0 0 15px rgba(59, 130, 246, 0.2)' },
+                             '50%': { boxShadow: '0 0 30px rgba(59, 130, 246, 0.6)' },
+                         }
                      },
                 },
             },
@@ -66,68 +87,138 @@
             scroll-behavior: smooth;
         }
         
-        /* Custom Scrollbar */
+        /* Deep Space Scrollbar */
         ::-webkit-scrollbar {
-            width: 8px;
+            width: 6px;
         }
-        
         ::-webkit-scrollbar-track {
-            background: #0f172a;
+            background: var(--color-primary);
         }
-        
         ::-webkit-scrollbar-thumb {
-            background: #3b82f6;
-            border-radius: 4px;
+            background: var(--color-neon-blue);
+            border-radius: 10px;
         }
-        
         ::-webkit-scrollbar-thumb:hover {
-            background: #2563eb;
+            background: var(--color-accent);
         }
         
-        /* Gradient Text */
+        /* Premium Gradient Text */
         .gradient-text {
-            background: linear-gradient(135deg, #3b82f6, #06b6d4);
+            background: linear-gradient(135deg, var(--color-neon-blue) 0%, #8b5cf6 50%, var(--color-accent) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            padding: 0.2em;
+            margin: -0.2em;
+            display: inline-block;
+            line-height: 1.2;
         }
         
-        /* Card Hover Effect */
-        .card-hover {
+        /* Glassmorphism Card Hover */
+        .glass-card {
+            background: rgba(10, 10, 14, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .glass-card:hover {
+            transform: translateY(-8px);
+            background: rgba(15, 15, 20, 0.8);
+            border-color: rgba(59, 130, 246, 0.3);
+            box-shadow: 0 20px 40px -10px rgba(59, 130, 246, 0.2), 0 0 20px rgba(251, 191, 36, 0.1);
+        }
+
+        /* Neon Border Glow Utilities */
+        .glow-border {
+            position: relative;
+        }
+        .glow-border::before {
+            content: '';
+            position: absolute;
+            top: -1px; left: -1px; right: -1px; bottom: -1px;
+            background: linear-gradient(45deg, var(--color-neon-blue), transparent, var(--color-accent));
+            z-index: -1;
+            border-radius: inherit;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .glow-border:hover::before {
+            opacity: 1;
+        }
+        
+        /* Gradient Backgrounds */
+        .bg-mesh {
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.1) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(251, 191, 36, 0.05) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(59, 130, 246, 0.1) 0px, transparent 50%),
+                radial-gradient(at 0% 100%, rgba(139, 92, 246, 0.1) 0px, transparent 50%);
+        }
+        
+        .theme-dot {
+            width: 1.5rem;
+            height: 1.5rem;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
             transition: all 0.3s ease;
         }
+        .theme-dot:hover { transform: scale(1.2); }
+        .theme-dot.active { border-color: white; transform: scale(1.1); }
         
-        .card-hover:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(59, 130, 246, 0.15);
+        /* Light Mode Overrides */
+        .light .bg-primary { background-color: #f8fafc; }
+        .light .bg-secondary { background-color: #ffffff; }
+        .light .text-gray-200 { color: #1e293b; }
+        .light .text-gray-300 { color: #475569; }
+        .light .text-gray-400 { color: #64748b; }
+        .light .glass-card { 
+            background: rgba(255, 255, 255, 0.7); 
+            border-color: rgba(0, 0, 0, 0.05); 
+        }
+        .light .bg-mesh {
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.05) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(251, 191, 36, 0.03) 0px, transparent 50%);
         }
     </style>
 </head>
-<body class="bg-primary text-white font-sans antialiased">
+<body class="bg-primary bg-mesh text-gray-200 font-sans antialiased min-h-screen transition-colors duration-300">
     
     <!-- Navigation -->
-    <nav class="fixed top-0 left-0 right-0 z-50 bg-primary/90 backdrop-blur-md border-b border-white/10">
+    <nav class="fixed top-0 left-0 right-0 z-50 glass-card">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
                 <!-- Brand Logo -->
-                <a href="#" class="flex items-center font-extrabold tracking-tighter text-3xl group cursor-pointer">
-                    
-                    <span class="text-gray-900 group-hover:-translate-x-1 transition-transform duration-300">&lt;</span>
-                    
-                    <span class="px-1 text-gray-950">Aman</span>
-                    <span class="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent group-hover:scale-105 transition-transform duration-300">Kumar</span>
-                    
-                    <span class="text-gray-900 group-hover:translate-x-1 transition-transform duration-300">/&gt;</span>
-                    
+                <a href="#" class="flex items-center font-extrabold tracking-tighter text-3xl group cursor-pointer space-x-2">
+                    <img src="assets/favicon.svg" alt="Logo" class="w-8 h-8 group-hover:rotate-12 transition-transform duration-300">
+                    <div class="flex items-center">
+                        <span class="text-gray-500 group-hover:-translate-x-1 transition-transform duration-300">&lt;</span>
+                        <span class="px-1 text-white inline-block">Aman</span>
+                        <span class="bg-gradient-to-r from-neon-blue to-accent bg-clip-text text-transparent group-hover:scale-105 transition-transform duration-300 pb-[0.15em] pr-[0.15em] inline-block">Kumar</span>
+                        <span class="text-gray-500 group-hover:translate-x-1 transition-transform duration-300">/&gt;</span>
+                    </div>
                 </a>
                 
                 <!-- Desktop Menu -->
                 <div class="hidden md:flex items-center space-x-8">
-                    <a href="#home" class="hover:text-accent transition-colors">Home</a>
-                    <a href="#about" class="hover:text-accent transition-colors">About</a>
-                    <a href="#skills" class="hover:text-accent transition-colors">Skills</a>
-                    <a href="#projects" class="hover:text-accent transition-colors">Projects</a>
-                    <a href="#contact" class="px-4 py-2 bg-accent hover:bg-accent-hover rounded-lg transition-colors">Contact</a>
+                    <a href="#home" class="text-gray-300 hover:text-accent transition-colors">Home</a>
+                    <a href="#about" class="text-gray-300 hover:text-accent transition-colors">About Me</a>
+                    <a href="#skills" class="text-gray-300 hover:text-accent transition-colors">Skills</a>
+                    <a href="#portfolio" class="text-gray-300 hover:text-accent transition-colors">Portfolio</a>
+                    
+                    <!-- Theme Selector -->
+                    <div class="flex items-center space-x-3 px-4 border-l border-white/10 ml-4">
+                        <div onclick="applyTheme('gold')" class="theme-dot bg-[#fbbf24]" title="Gold Theme"></div>
+                        <div onclick="applyTheme('emerald')" class="theme-dot bg-[#10b981]" title="Emerald Theme"></div>
+                        <div onclick="applyTheme('ruby')" class="theme-dot bg-[#ef4444]" title="Ruby Theme"></div>
+                        <div onclick="applyTheme('midnight')" class="theme-dot bg-[#8b5cf6]" title="Midnight Theme"></div>
+                    </div>
+
+                    <a href="#contact" class="px-4 py-2 glow-border bg-blue-600/10 hover:bg-neon-blue text-neon-blue font-medium hover:text-white rounded-lg transition-all shadow-[0_0_10px_rgba(59,130,246,0.2)] hover:shadow-[0_0_20px_rgba(59,130,246,0.6)]">Contact Me</a>
+                    <a href="admin.html" class="text-xs text-gray-500 hover:text-accent transition-colors">Admin</a>
                 </div>
                 
                 <!-- Mobile Menu Button -->
@@ -140,12 +231,12 @@
         </div>
         
         <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden md:hidden bg-secondary">
+        <div id="mobile-menu" class="hidden md:hidden glass-card mt-2 mx-4 rounded-xl shadow-2xl">
             <div class="px-4 py-3 space-y-2">
                 <a href="#home" class="block py-2 hover:text-accent">Home</a>
-                <a href="#about" class="block py-2 hover:text-accent">About</a>
+                <a href="#about" class="block py-2 hover:text-accent">About Me</a>
                 <a href="#skills" class="block py-2 hover:text-accent">Skills</a>
-                <a href="#projects" class="block py-2 hover:text-accent">Projects</a>
+                <a href="#portfolio" class="block py-2 hover:text-accent">Portfolio</a>
                 <a href="#contact" class="block py-2 hover:text-accent">Contact</a>
             </div>
         </div>
@@ -165,11 +256,11 @@
                         A passionate developer crafting modern, high-performance web experiences with clean code and creative solutions.
                     </p>
                     <div class="flex flex-wrap gap-4">
-                        <a href="#projects" class="px-8 py-3 bg-accent hover:bg-accent-hover rounded-lg font-medium transition-all transform hover:scale-105">
+                        <a href="#portfolio" class="glow-border px-8 py-3 bg-blue-600/10 hover:bg-neon-blue text-neon-blue hover:text-white rounded-lg font-medium transition-all transform hover:scale-105 shadow-[0_0_15px_rgba(59,130,246,0.3)] hover:shadow-[0_0_30px_rgba(59,130,246,0.6)]">
                             View My Work
                         </a>
-                        <a href="#contact" class="px-8 py-3 border border-white/20 hover:border-accent rounded-lg font-medium transition-all">
-                            Get In Touch
+                        <a href="#contact" class="px-8 py-3 bg-secondary border border-white/10 hover:border-accent hover:text-accent rounded-lg font-medium transition-all">
+                            Contact Me
                         </a>
                     </div>
                     
@@ -216,10 +307,10 @@
                  <div class="animate-fade-in mt-8">
                      <div class="text-center">
                          <div class="relative inline-block">
-                             <div class="absolute inset-0 flex items-center justify-center text-6xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent animate-coding-to-a">
+                             <div class="absolute inset-0 flex items-center justify-center text-6xl font-bold bg-gradient-to-r from-neon-blue to-accent bg-clip-text text-transparent animate-coding-to-a">
                                  CODING
                              </div>
-                             <div class="absolute inset-0 flex items-center justify-center text-6xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent opacity-0 animate-a-only">
+                             <div class="absolute inset-0 flex items-center justify-center text-6xl font-bold bg-gradient-to-r from-neon-blue to-accent bg-clip-text text-transparent opacity-0 animate-a-only">
                                  A
                              </div>
                          </div>
@@ -230,10 +321,10 @@
     </section>
 
     <!-- About Section -->
-    <section id="about" class="py-20 bg-secondary">
+    <section id="about" class="py-20 relative">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16 animate-slide-up">
-                <h2 class="text-4xl font-bold mb-4">About <span class="gradient-text">Me</span></h2>
+                <h2 class="text-4xl font-bold mb-4"><span class="gradient-text">About Me</span></h2>
                 <p class="text-gray-400 max-w-2xl mx-auto">
                     I'm a passionate and results-oriented web developer with a talent for crafting elegant, user-friendly, and high-performance web experiences. I'm driven by a desire to solve complex problems and turn innovative ideas into reality through clean, efficient, and scalable code.
                 </p>
@@ -241,10 +332,10 @@
             
             <!-- Education Section -->
             <div class="mb-16">
-                <h3 class="text-2xl font-bold mb-8 text-center">My <span class="gradient-text">Education</span></h3>
+                <h3 class="text-2xl font-bold mb-8 text-center"><span class="gradient-text">My Education</span></h3>
                 <div class="grid md:grid-cols-2 gap-6">
                     <!-- Education Card 1 -->
-                    <div class="bg-primary p-6 rounded-xl card-hover border border-white/5">
+                    <div class="glass-card p-6 rounded-xl border border-white/5">
                         <div class="flex items-start gap-4">
                             <div class="w-12 h-12 bg-accent/20 rounded-lg flex items-center justify-center flex-shrink-0">
                                 <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -281,7 +372,7 @@
             
             <!-- Certifications Section -->
             <div class="mb-16">
-                <h3 class="text-2xl font-bold mb-8 text-center">My <span class="gradient-text">Certifications</span></h3>
+                <h3 class="text-2xl font-bold mb-8 text-center"><span class="gradient-text">My Certifications</span></h3>
                 <div class="grid md:grid-cols-2 gap-6">
                     
                     
@@ -294,7 +385,7 @@
                                 </svg>
                             </div>
                             <div>
-                                <h4 class="text-lg font-semibold">Basic Computer</h4>
+                                <h4 class="text-lg font-semibold">Basic Computer Course</h4>
                                 <p class="text-gray-400">Rajdhani Computer Education</p>
                                 <p class="text-sm text-purple-500 mt-1">July 2015 - July 2016</p>
                             </div>
@@ -305,7 +396,7 @@
             
             <div class="grid md:grid-cols-3 gap-8">
                 <!-- Card 1 -->
-                <div class="bg-primary p-8 rounded-2xl card-hover border border-white/5">
+                <div class="glass-card p-8 rounded-2xl border border-white/5">
                     <div class="w-12 h-12 bg-accent/20 rounded-lg flex items-center justify-center mb-4">
                         <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
@@ -316,7 +407,7 @@
                 </div>
                 
                 <!-- Card 2 -->
-                <div class="bg-primary p-8 rounded-2xl card-hover border border-white/5">
+                <div class="glass-card p-8 rounded-2xl border border-white/5">
                     <div class="w-12 h-12 bg-cyan-500/20 rounded-lg flex items-center justify-center mb-4">
                         <svg class="w-6 h-6 text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
@@ -327,7 +418,7 @@
                 </div>
                 
                 <!-- Card 3 -->
-                <div class="bg-primary p-8 rounded-2xl card-hover border border-white/5">
+                <div class="glass-card p-8 rounded-2xl border border-white/5">
                     <div class="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center mb-4">
                         <svg class="w-6 h-6 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"/>
@@ -344,7 +435,7 @@
     <section id="skills" class="py-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold mb-4">My <span class="gradient-text">Skills</span></h2>
+                <h2 class="text-4xl font-bold mb-4"><span class="gradient-text">My Skills</span></h2>
                 <p class="text-gray-400 max-w-2xl mx-auto">
                     Technologies and tools I work with to bring ideas to life.
                 </p>
@@ -352,7 +443,7 @@
             
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 <!-- Skill Item -->
-                <div class="bg-secondary p-6 rounded-xl text-center card-hover border border-white/5">
+                <div class="glass-card p-6 rounded-xl text-center border border-white/5">
                     <div class="w-16 h-16 mx-auto mb-4 bg-white/5 rounded-lg flex items-center justify-center">
                         <svg class="w-8 h-8 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
@@ -362,7 +453,7 @@
                 </div>
                 
                 <!-- Skill Item -->
-                <div class="bg-secondary p-6 rounded-xl text-center card-hover border border-white/5">
+                <div class="glass-card p-6 rounded-xl text-center border border-white/5">
                     <div class="w-16 h-16 mx-auto mb-4 bg-white/5 rounded-lg flex items-center justify-center">
                         <svg class="w-8 h-8 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
@@ -372,7 +463,7 @@
                 </div>
 
                 <!-- Skill Item -->
-                <div class="bg-secondary p-6 rounded-xl text-center card-hover border border-white/5">
+                <div class="glass-card p-6 rounded-xl text-center border border-white/5">
                     <div class="w-16 h-16 mx-auto mb-4 bg-white/5 rounded-lg flex items-center justify-center">
                         <svg class="w-8 h-8 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
@@ -382,7 +473,7 @@
                 </div>
 
                 <!-- Skill Item -->
-                <div class="bg-secondary p-6 rounded-xl text-center card-hover border border-white/5">
+                <div class="glass-card p-6 rounded-xl text-center border border-white/5">
                     <div class="w-16 h-16 mx-auto mb-4 bg-white/5 rounded-lg flex items-center justify-center">
                         <svg class="w-8 h-8 text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
@@ -392,7 +483,7 @@
                 </div>
 
                 <!-- Skill Item -->
-                <div class="bg-secondary p-6 rounded-xl text-center card-hover border border-white/5">
+                <div class="glass-card p-6 rounded-xl text-center border border-white/5">
                     <div class="w-16 h-16 mx-auto mb-4 bg-white/5 rounded-lg flex items-center justify-center">
                         <svg class="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
@@ -435,10 +526,10 @@
     </section>
 
     <!-- Projects Section -->
-    <section id="projects" class="py-20 bg-secondary">
+    <section id="portfolio" class="py-20 relative">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold mb-4">My <span class="gradient-text">Projects</span></h2>
+                <h2 class="text-4xl font-bold mb-4"><span class="gradient-text">My Portfolio</span></h2>
                 <p class="text-gray-400 max-w-2xl mx-auto">
                     Here are some of the projects I've worked on.
                 </p>
@@ -446,7 +537,7 @@
             
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- Project Card -->
-                <div class="bg-primary rounded-2xl overflow-hidden card-hover border border-white/5">
+                <div class="glass-card rounded-2xl overflow-hidden border border-white/5">
                     <!-- Placeholder for WebP Image -->
                     <div class="h-48 bg-gradient-to-br from-accent/20 to-cyan-500/20 flex items-center justify-center">
                         <svg class="w-24 h-24 text-white/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -504,7 +595,7 @@
     <section id="contact" class="py-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold mb-4">Get In <span class="gradient-text">Touch</span></h2>
+                <h2 class="text-4xl font-bold mb-4"><span class="gradient-text">Get In Touch</span></h2>
                 <p class="text-gray-400 max-w-2xl mx-auto">
                     Have a project in mind? Let's work together!
                 </p>
@@ -514,19 +605,19 @@
                 <form class="space-y-6">
                     <div class="grid md:grid-cols-2 gap-6">
                         <div>
-                            <label class="block text-sm font-medium mb-2">Name</label>
-                            <input type="text" class="w-full px-4 py-3 bg-secondary border border-white/10 rounded-lg focus:outline-none focus:border-accent transition-colors" placeholder="Your Name">
+                            <label class="block text-sm font-medium mb-2 text-gray-300">Name</label>
+                            <input type="text" class="w-full px-4 py-3 glass-card text-white border border-white/10 rounded-lg focus:outline-none focus:border-neon-blue focus:shadow-[0_0_15px_rgba(59,130,246,0.3)] transition-all" placeholder="Your Name">
                         </div>
                         <div>
-                            <label class="block text-sm font-medium mb-2">Email</label>
-                            <input type="email" class="w-full px-4 py-3 bg-secondary border border-white/10 rounded-lg focus:outline-none focus:border-accent transition-colors" placeholder="your@email.com">
+                            <label class="block text-sm font-medium mb-2 text-gray-300">Email</label>
+                            <input type="email" class="w-full px-4 py-3 glass-card text-white border border-white/10 rounded-lg focus:outline-none focus:border-neon-blue focus:shadow-[0_0_15px_rgba(59,130,246,0.3)] transition-all" placeholder="your@email.com">
                         </div>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium mb-2">Message</label>
-                        <textarea rows="5" class="w-full px-4 py-3 bg-secondary border border-white/10 rounded-lg focus:outline-none focus:border-accent transition-colors resize-none" placeholder="Your message..."></textarea>
+                        <label class="block text-sm font-medium mb-2 text-gray-300">Message</label>
+                        <textarea rows="5" class="w-full px-4 py-3 glass-card text-white border border-white/10 rounded-lg focus:outline-none focus:border-neon-blue focus:shadow-[0_0_15px_rgba(59,130,246,0.3)] transition-all resize-none" placeholder="Your message..."></textarea>
                     </div>
-                    <button type="submit" class="w-full py-4 bg-accent hover:bg-accent-hover rounded-lg font-medium transition-all transform hover:scale-[1.02]">
+                    <button type="submit" class="w-full py-4 glow-border bg-blue-600/10 hover:bg-neon-blue text-neon-blue hover:text-white rounded-lg font-medium transition-all transform hover:scale-[1.02] shadow-[0_0_15px_rgba(59,130,246,0.2)] hover:shadow-[0_0_30px_rgba(59,130,246,0.6)]">
                         Send Message
                     </button>
                 </form>
@@ -535,24 +626,49 @@
     </section>
 
     <!-- Footer -->
-    <footer class="py-8 bg-secondary border-t border-white/10">
+    <footer class="py-12 glass-card border-t border-white/10 mt-20 relative z-10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col md:flex-row items-center justify-between gap-4">
-                <div class="flex items-center space-x-2">
-                    <!-- SVG Logo -->
-                    <svg width="32" height="32" viewBox="0 0 40 40">
-                        <defs>
-                            <linearGradient id="footerLogoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" style="stop-color:#3b82f6"/>
-                                <stop offset="100%" style="stop-color:#06b6d4"/>
-                            </linearGradient>
-                        </defs>
-                        <circle cx="20" cy="20" r="18" fill="url(#footerLogoGradient)"/>
-                        <text x="20" y="26" text-anchor="middle" font-family="Inter" font-size="14" font-weight="700" fill="white">A</text>
-                    </svg>
-                    <span class="font-semibold">Aman Kumar</span>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-8">
+                <!-- Part 1: Brand & Info -->
+                <div class="flex flex-col items-center md:items-start text-center md:text-left">
+                    <a href="#" class="flex items-center font-extrabold tracking-tighter text-2xl group cursor-pointer mb-4 hover:opacity-90 transition-opacity">
+                        <span class="text-gray-500 group-hover:-translate-x-1 transition-transform duration-300">&lt;</span>
+                        <span class="px-1 text-white inline-block">Aman</span>
+                        <span class="bg-gradient-to-r from-neon-blue to-accent bg-clip-text text-transparent group-hover:scale-105 transition-transform duration-300 pb-[0.15em] pr-[0.15em] inline-block">Kumar</span>
+                        <span class="text-gray-500 group-hover:translate-x-1 transition-transform duration-300">/&gt;</span>
+                    </a>
+                    <p class="text-gray-400 max-w-sm mb-6">
+                        Crafting modern, high-performance web experiences with clean code and creative solutions. Let's build something amazing together.
+                    </p>
+                    <div class="flex items-center gap-4">
+                        <a href="#" aria-label="GitHub" class="p-2 bg-white/5 hover:bg-accent hover:text-white text-gray-400 rounded-lg transition-colors">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                        </a>
+                        <a href="#" aria-label="LinkedIn" class="p-2 bg-white/5 hover:bg-accent hover:text-white text-gray-400 rounded-lg transition-colors">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                        </a>
+                        <a href="#" aria-label="Twitter" class="p-2 bg-white/5 hover:bg-accent hover:text-white text-gray-400 rounded-lg transition-colors">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
+                        </a>
+                    </div>
                 </div>
-                <p class="text-gray-400 text-sm">© 2026 All rights reserved.</p>
+                
+                <!-- The right side grid column (Quick Links) has been removed -->
+            </div>
+            
+            <!-- Bottom Copyright -->
+            <div class="pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
+                <div class="flex flex-col md:flex-row items-center gap-2 md:gap-4">
+                    <p class="text-gray-500 text-sm font-medium">© 2026 Aman Kumar. All rights reserved.</p>
+                    <span class="hidden md:inline text-gray-700">|</span>
+                    <p class="text-gray-600 text-xs">Last admin login: <span id="admin-last-login" class="text-gray-500">Wait...</span></p>
+                </div>
+                <div class="flex flex-col md:flex-row items-center gap-2 md:gap-4 mt-4 md:mt-0">
+                    <a href="user.html" class="text-xs text-gray-500 hover:text-accent transition-colors">User Profile</a>
+                    <span class="hidden md:inline text-gray-800">|</span>
+                    <a href="admin.html" class="text-xs text-gray-500 hover:text-accent transition-colors">Admin Panel</a>
+                </div>
+                <p class="text-gray-500 text-sm">Crafted with <span class="text-accent inline-block">♥</span></p>
             </div>
         </div>
     </footer>
@@ -573,6 +689,7 @@
             });
         });
     </script>
+    <script src="assets/js/themes.js"></script>
     <script src="assets/js/script.js" defer></script>
 </body>
 </html>
