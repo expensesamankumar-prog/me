@@ -10,7 +10,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@google-cloud/functions-framework": "^5.0.2",
     "@google/gemini-cli": "^0.33.1",
+    "express": "^5.2.1",
+    "googleapis": "^171.4.0",
     "wrangler": "^3.114.17"
   }
 }
