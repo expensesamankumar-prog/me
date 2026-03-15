@@ -1,0 +1,52 @@
+# Cloudflare Pages Headers Configuration
+# This file is automatically processed by Cloudflare Pages
+
+# Security Headers
+/*
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  X-XSS-Protection: 1; mode=block
+  Referrer-Policy: strict-origin-when-cross-origin
+
+# Cache Policy for Static Assets
+# CSS, JS, and SVG files - cache for 1 year (long-term caching)
+# Note: Use versioned filenames or query strings for cache busting
+/assets/*.css
+  Cache-Control: public, max-age=31536000, immutable
+
+/assets/*.js
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.svg
+  Cache-Control: public, max-age=31536000, immutable
+
+# Images (WebP format) - cache for 1 year
+# Note: Always use WebP format for images - it's 30% smaller than PNG
+# with the same quality, and supports transparency
+/*.webp
+  Cache-Control: public, max-age=31536000, immutable
+
+# HTML files - don't cache (for development) or cache briefly (for production)
+# Uncomment the following line for production:
+# /*.html
+#   Cache-Control: public, max-age=0, must-revalidate
+
+# Font files - cache for 1 year (fonts rarely change)
+/*.woff
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.woff2
+  Cache-Control: public, max-age=31536000, immutable
+
+# Cloudflare Polish Optimization (optional - enables automatic image optimization)
+# To enable: Go to Cloudflare Dashboard > Speed > Polish
+# Select "Auto" for both options for best results
+
+# Performance Headers
+# Enable HTTP/2 for better performance
+/*
+  Alt-Svc: h3=":443"; ma=86400
+
+# Content Security Policy (uncomment and customize as needed)
+# /*
+#   Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.tailwindcss.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https:
