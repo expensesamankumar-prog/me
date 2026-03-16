@@ -50,19 +50,19 @@
                 <p class="text-gray-400 mb-6">Select the default palette for the entire site.</p>
                 
                 <div class="space-y-4">
-                    <button onclick="applyTheme('gold')" class="w-full p-4 rounded-xl flex items-center justify-between border border-white/10 hover:border-accent group">
+                    <button onclick="saveGlobalTheme('gold')" class="w-full p-4 rounded-xl flex items-center justify-between border border-white/10 hover:border-accent group">
                         <span class="flex items-center"><div class="w-4 h-4 bg-[#fbbf24] rounded-full mr-3"></div> Gold (Classic)</span>
                         <span class="opacity-0 group-hover:opacity-100 text-accent">Apply</span>
                     </button>
-                    <button onclick="applyTheme('emerald')" class="w-full p-4 rounded-xl flex items-center justify-between border border-white/10 hover:border-[#10b981] group">
+                    <button onclick="saveGlobalTheme('emerald')" class="w-full p-4 rounded-xl flex items-center justify-between border border-white/10 hover:border-[#10b981] group">
                         <span class="flex items-center"><div class="w-4 h-4 bg-[#10b981] rounded-full mr-3"></div> Emerald (Modern)</span>
                         <span class="opacity-0 group-hover:opacity-100 text-[#10b981]">Apply</span>
                     </button>
-                    <button onclick="applyTheme('ruby')" class="w-full p-4 rounded-xl flex items-center justify-between border border-white/10 hover:border-[#ef4444] group">
+                    <button onclick="saveGlobalTheme('ruby')" class="w-full p-4 rounded-xl flex items-center justify-between border border-white/10 hover:border-[#ef4444] group">
                         <span class="flex items-center"><div class="w-4 h-4 bg-[#ef4444] rounded-full mr-3"></div> Ruby (Vibrant)</span>
                         <span class="opacity-0 group-hover:opacity-100 text-[#ef4444]">Apply</span>
                     </button>
-                    <button onclick="applyTheme('midnight')" class="w-full p-4 rounded-xl flex items-center justify-between border border-white/10 hover:border-[#8b5cf6] group">
+                    <button onclick="saveGlobalTheme('midnight')" class="w-full p-4 rounded-xl flex items-center justify-between border border-white/10 hover:border-[#8b5cf6] group">
                         <span class="flex items-center"><div class="w-4 h-4 bg-[#8b5cf6] rounded-full mr-3"></div> Midnight (Deep)</span>
                         <span class="opacity-0 group-hover:opacity-100 text-[#8b5cf6]">Apply</span>
                     </button>
@@ -79,7 +79,7 @@
                     </div>
                     <div class="flex justify-between border-b border-white/5 pb-4">
                         <span class="text-gray-400">Total Visits</span>
-                        <span class="text-white">1,284</span>
+                        <span id="total-visits" class="text-white">...</span>
                     </div>
                     <div class="flex justify-between">
                         <span class="text-gray-400">Last Theme Push</span>
@@ -92,14 +92,123 @@
                 </div>
             </div>
         </div>
+
+        <!-- Recent Activity Section -->
+        <div class="mt-12 grid md:grid-cols-2 gap-8">
+            <!-- Visitor Log -->
+            <div class="glass p-8 rounded-2xl">
+                <h2 class="text-2xl font-semibold mb-6 flex justify-between items-center">
+                    Recent Visitors
+                    <button onclick="loadDashboardData()" class="text-xs text-accent hover:underline">Refresh</button>
+                </h2>
+                <div class="overflow-y-auto max-h-[400px] space-y-3" id="visitor-list">
+                    <p class="text-gray-500 text-sm">Loading visitors...</p>
+                </div>
+            </div>
+
+            <!-- Contact Messages -->
+            <div class="glass p-8 rounded-2xl">
+                <h2 class="text-2xl font-semibold mb-6">Contact Messages</h2>
+                <div class="overflow-y-auto max-h-[400px] space-y-4" id="message-list">
+                    <p class="text-gray-500 text-sm">Loading messages...</p>
+                </div>
+            </div>
+        </div>
     </main>
 
     <script src="assets/js/themes.js"></script>
     <script>
+        async function loadDashboardData() {
+            let adminToken = localStorage.getItem('admin_token');
+            if (!adminToken) {
+                adminToken = prompt("Enter Admin Secret Token:");
+                if (adminToken) localStorage.setItem('admin_token', adminToken);
+            }
+
+            const headers = { 
+                "Authorization": `Bearer ${adminToken}`
+            };
+
+            try {
+                // Parallel fetching for performance
+                const [statsRes, messagesRes, visitorsRes] = await Promise.all([
+                    fetch('/api/stats', { headers }),
+                    fetch('/api/messages', { headers }),
+                    fetch('/api/visitors', { headers })
+                ]);
+
+                // Check for unauthorized access
+                if (statsRes.status === 401) {
+                    localStorage.removeItem('admin_token');
+                    alert("Unauthorized. Please refresh and enter a valid token.");
+                    return;
+                }
+
+                const stats = await statsRes.json();
+                const messages = await messagesRes.json();
+                const visitors = await visitorsRes.json();
+
+                // 1. Render Stats (Stats endpoint returns an array)
+                const statData = stats[0] || { total_visits: 0 };
+                document.getElementById('total-visits').textContent = statData.total_visits.toLocaleString();
+                if (statData.last_update) {
+                    const date = new Date(statData.last_update);
+                    document.getElementById('last-update').textContent = date.toLocaleString();
+                }
+
+                // 2. Render Visitors
+                const vList = document.getElementById('visitor-list');
+                vList.innerHTML = visitors.map(v => `
+                    <div class="p-3 border-b border-white/5 flex justify-between items-center">
+                        <div>
+                            <p class="font-medium text-sm text-white">${v.name || 'Anonymous'}</p>
+                            <p class="text-xs text-gray-500">${v.email}</p>
+                        </div>
+                        <p class="text-[10px] text-gray-600">${new Date(v.last_login).toLocaleDateString()}</p>
+                    </div>
+                `).join('') || '<p class="text-gray-600 text-sm p-4">No visitors yet.</p>';
+
+                // 3. Render Messages
+                const mList = document.getElementById('message-list');
+                mList.innerHTML = messages.map(m => `
+                    <div class="p-4 bg-white/5 rounded-xl border border-white/10">
+                        <div class="flex justify-between items-start mb-2">
+                            <p class="font-bold text-accent text-sm">${m.name}</p>
+                            <p class="text-[10px] text-gray-500">${new Date(m.created_at).toLocaleString()}</p>
+                        </div>
+                        <p class="text-xs text-gray-300 bg-black/20 p-2 rounded-lg italic">"${m.message}"</p>
+                        <p class="text-[10px] text-gray-600 mt-2">${m.email}</p>
+                    </div>
+                `).join('') || '<p class="text-gray-600 text-sm p-4">No messages yet.</p>';
+
+            } catch (err) {
+                console.error("Dashboard error:", err);
+            }
+        }
+
+        async function saveGlobalTheme(theme) {
+            try {
+                applyTheme(theme); // Local update
+                const response = await fetch('/api/settings', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ key: 'theme', value: theme })
+                });
+                if (response.ok) {
+                    console.log(`Global theme set to ${theme}`);
+                    loadDashboardData(); // Refresh last update time
+                }
+            } catch (err) {
+                console.error("Failed to save global theme:", err);
+            }
+        }
+
         window.addEventListener('themeChanged', (e) => {
             const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
             document.getElementById('last-update').textContent = `Just now, ${time}`;
         });
+
+        document.addEventListener('DOMContentLoaded', loadDashboardData);
     </script>
 </body>
 </html>

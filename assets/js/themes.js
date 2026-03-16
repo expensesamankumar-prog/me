@@ -52,9 +52,22 @@ function applyTheme(themeName) {
     window.dispatchEvent(new CustomEvent('themeChanged', { detail: { themeName } }));
 }
 
-function initTheme() {
-    const savedTheme = localStorage.getItem('portfolio-theme') || 'gold';
-    applyTheme(savedTheme);
+async function initTheme() {
+    const savedTheme = localStorage.getItem('portfolio-theme');
+    
+    if (savedTheme) {
+        applyTheme(savedTheme);
+    } else {
+        try {
+            // Fetch global default if no local preference
+            const response = await fetch('/api/settings/theme');
+            const data = await response.json();
+            applyTheme(data.theme || 'gold');
+        } catch (err) {
+            console.error("Theme sync error:", err);
+            applyTheme('gold');
+        }
+    }
 }
 
 // Initialize on load

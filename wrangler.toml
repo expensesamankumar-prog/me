@@ -2,3 +2,8 @@ name = "amankumar"
 compatibility_date = "2024-01-01"
 
 pages_build_output_dir = "./"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "amankumar-db"
+database_id = "1e009be1-4779-4f63-865d-817257a1dfd3"
