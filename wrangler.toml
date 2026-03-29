@@ -1,4 +1,9 @@
 name = "aman-kumar-portfolio"
-# account_id = "<YOUR_CLOUDFLARE_ACCOUNT_ID>"
-# Set project for Pages deploy
-# Use: wrangler pages publish . --project-name aman-kumar-portfolio
+
+# Cloudflare Pages configuration
+pages_build_output_dir = "."
+
+# Functions directory for API routes
+# Routes: /api/contact -> functions/api/contact.js
+
+compatibility_date = "2024-01-01"
